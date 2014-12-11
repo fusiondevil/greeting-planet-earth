@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// char **product_list;
-char* product_list[30]; // Code for dynamically allocated string array is quite scary, so I made it simple and therefore unextendable
+char* product_list[30];
 int price_list[30];
 unsigned max_name_length = 0;
 
@@ -11,20 +10,13 @@ void Menu();
 void AddProduct();
 void Display();
 void Delete();
-void DeleteX();
 void Search();
 char *ReadLine(size_t, FILE*);
-void cell_edit(int, char*, int);
-int cell_match(int, char*);
 int first_available(int);
 int first_occupied(int);
 int amount();
 char *to_lower(char*);
-void DeleteAll();
 char *String(char*, int);
-
-// Replace NULL with !
-// add, edit, delete, deletex, deleteall, display, search, lookup, save, quit, compare, reload (reload save file), unload
 
 int main(int argc, char** argv) {
     int i;
@@ -98,6 +90,10 @@ char *String(char *str, int did) {
     return token;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////
+// Below are unnecessary for bug fixing process and just for testing purposes only //
+/////////////////////////////////////////////////////////////////////////////////////
+
 void Menu() {
     char *input;
     // Add full menu
@@ -120,17 +116,10 @@ void Menu() {
     } else if (strcmp(input, "delete") == 0) {
         free(input);
         Delete();
-    } else if (strcmp(input, "deletex") == 0) {
-        free(input);
-        DeleteX();
-    } else if (strcmp(input, "deleteall") == 0) {
-        free(input);
-        DeleteAll();
     } else if (strcmp(input, "search") == 0) {
         free(input);
         Search();
     }
-
 }
 
 void AddProduct() {
@@ -159,8 +148,6 @@ void AddProduct() {
     printf("Product added.\n");
     Menu();
 }
-
-//Feature: Display all product: YES
 
 void Display() {
     int i, amt;
@@ -219,16 +206,6 @@ void Delete() {
         while (getchar() != '\n');
     }
     Menu();
-}
-
-// Feature: Multiple Products Deletion: YES
-
-void DeleteX() {
-
-}
-
-void DeleteAll() {
-
 }
 
 void Search() {
@@ -296,20 +273,6 @@ char *ReadLine(size_t size, FILE *file) {
     str[len++] = '\0';
 
     return (char*) realloc(str, sizeof (char)*len);
-}
-
-void cell_edit(int id, char *name, int price) {
-    id--;
-    product_list[id] = name;
-    price_list[id] = price;
-}
-
-int cell_match(int list_index, char *key) {
-    if (key == NULL && product_list[list_index] == NULL)
-        return -1; // Cell is available
-    if (strstr(product_list[list_index], key) != NULL)
-        return 1; // Keyword matched
-    return 0;
 }
 
 int first_available(int count) { // Start from 0
